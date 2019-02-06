@@ -1,0 +1,6 @@
+/.ignore/
+/local.d/*
+
+private.*sh
+secret.*sh
+secrets.*sh
