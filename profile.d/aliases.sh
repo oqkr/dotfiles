@@ -48,4 +48,3 @@ fi
 alias c='command -v'
 alias fgrep='fgrep --color=auto'
 alias less='less -R'
-alias ll='ls -lthra'
