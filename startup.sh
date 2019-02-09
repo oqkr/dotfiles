@@ -7,6 +7,9 @@
 
 # Note: ~/.bash_profile, ~/.bashrc, and ~/.zshrc are symlinks to this file.
 
+# Bail if this isn't an interactive shell.
+[[ "$-" =~ i ]] || return
+
 # If we have Oh My Zsh, configure and start it first thing.
 if [[ -n "${ZSH_VERSION}" && -f "${HOME}/.oh-my-zsh/oh-my-zsh.sh" ]]; then
 
