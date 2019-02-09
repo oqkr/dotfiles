@@ -62,7 +62,7 @@ else
 fi
 
 # Run all our startup scripts.
-dotfiles::do_startup
+dotfiles::init
 
 # Poorly behaved programs may append lines to this file with or without user
 # permission, so add a defensive return.
