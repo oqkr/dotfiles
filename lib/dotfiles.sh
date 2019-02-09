@@ -323,7 +323,7 @@ function dotfiles::load_after() {
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 # Check if a startup script is in DOTFILES_WAITING_ON_DEPS.
 #
-# This is intended only for internal use. Also note that, since this function
+# This is intended only for internal use. Note that, since this function
 # changes IFS, it runs in a subshell.
 #
 # Arguments:
@@ -338,7 +338,9 @@ function __script_is_waiting_on_deps() (
   IFS=$'\n'
   local script
   for script in $(__iterate_scripts_waiting_on_deps); do
-    [[ "$1" == "$(basename "${script}")" ]] && return 0
+    if [[ "$1" == "$(basename "${script}")" ]]; then
+      return 0
+    fi
   done
   return 1
 )
@@ -347,12 +349,10 @@ function __script_is_waiting_on_deps() (
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 # Print each script name from DOTFILES_WAITING_ON_DEPS separated by newlines.
 #
-# This provides a way for callers to iterate the keys of the associative array
-# DOTFILES_WAITING_ON_DEPS without needing to know the differing syntax between
-# Bash and Zsh.
-#
-# To guard against word-splitting paths containing spaces, callers may want to
-# set IFS=$'\n' before calling this.
+# This provides a way to iterate the keys DOTFILES_WAITING_ON_DEPS without
+# having to account for the differing syntax between Bash and Zsh. To guard
+# against word-splitting paths that contain spaces, consider setting IFS=$'\n'
+# before calling this.
 #
 # This is intended only for internal use.
 #
