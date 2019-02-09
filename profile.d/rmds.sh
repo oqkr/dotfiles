@@ -92,12 +92,11 @@ function __rmds_log() {
     title="$1"
     shift
   fi
-  local msg="$@"
-  printf -- "rmds: ${title:+${title}: }${msg}\n"
+  printf -- "%s\n" "rmds: ${title:+${title}: }$*"
   ((RMDS_NO_NOTIFY)) && return
 
   osascript -e "
-display notification \"${msg}\" \
+display notification \"${*}\" \
 with title \"rmds${title:+: ${title}}\" \
 sound name \"Submarine\""
 }
