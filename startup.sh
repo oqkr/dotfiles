@@ -26,7 +26,7 @@ if [[ -n "${ZSH_VERSION}" && -f "${HOME}/.oh-my-zsh/oh-my-zsh.sh" ]]; then
   # 2010-11-12T13:14:15
   HIST_STAMPS="%Y-%m-%dT%H:%M:%S"
 
-  # List plugins to load.
+  # Specify plugins to load.
   plugins=(
     "brew"
     "docker"
@@ -51,9 +51,10 @@ if [[ -f "${dotlib}" ]]; then
   source "${dotlib}"
   unset -v dotlib
 else
-  printf -- "dotfiles: missing library file ${dotlib}\n" >&2
-  printf -- "          reinstall from https://github.com/oqkr/dotfiles\n\n" >&2
-  unset -v dotlib
+  url="https://github.com/oqkr/dotfiles"
+  printf -- "%s\n" "dotfiles: missing library file ${dotlib}" >&2
+  printf -- "%s\n" "          reinstall from ${url}\n\n" >&2
+  unset -v dotlib url
   return 1
 fi
 

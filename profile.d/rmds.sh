@@ -39,7 +39,7 @@ Remove all .DS_Store files everywhere.
   while (($#)); do
     case "$1" in
       -h|-help|--help)
-        printf -- "${usage}\n"
+        printf -- "%s\n" "${usage}"
         return
         ;;
       --no-notify)

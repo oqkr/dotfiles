@@ -16,7 +16,7 @@ function as() {
   if (($#)) && [[ -n "$1" ]]; then
     alias | grep "$@"
   else
-    printf -- "as: empty argment\n" >&2
+    printf "as: empty argment\n" >&2
     return 1
   fi
 }
