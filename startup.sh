@@ -20,7 +20,7 @@ if [[ -n "${ZSH_VERSION}" && -f "${HOME}/.oh-my-zsh/oh-my-zsh.sh" ]]; then
   DEFAULT_USER="$(id -u -n)"
 
   # Show red dots while waiting for command completion.
-  COMPLETION_WAITING_DOTS="true"~
+  COMPLETION_WAITING_DOTS="true"
 
   # Format command execution timestamps in history as ISO 8601, e.g.,
   # 2010-11-12T13:14:15
