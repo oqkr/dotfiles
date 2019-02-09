@@ -13,7 +13,7 @@
 # Returns:   None
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer
+  dig +nocmd "$1" any +multiline +noall +answer
 }
 
 
@@ -96,11 +96,11 @@ function mcd() {
 # Returns:   None
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 function o() {
-	if (($#)); then
-		open "$@"
-	else
-		open .
-	fi
+  if (($#)); then
+    open "$@"
+  else
+    open .
+  fi
 }
 
 
