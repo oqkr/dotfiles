@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+# Install dotfiles for current user.
+#
+# Author: oqkr@pm.me
+# Source: https://github.com/oqkr/dotfiles
+# · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+
+# Backup a file by copying it to <file>.<timestamp>.bak
+function backup() {
+  [[ -e "$1" ]] || return 0
+  [[ -d "$1" ]] && local cmd="cp -f -R" || local cmd="cp -f"
+  ${cmd} "$1" "$1.$(date "+%s").bak"
+}
+
+function backup_or_die() {
+  backup "$1" || die "cannot create backup of '$1'"
+}
+
+function die() {
+  printf "error: %s\n" "$*" >&2
+  exit 1
+}
+
+# Print the path of the directory this installer is in.
+function get_repo_dir_or_die() {
+  local -r repo="$(cd "$(dirname "$0")" && pwd -P)"
+  [[ -n "${repo}" ]] || die "cannot determine repo directory"
+  printf -- "%s" "${repo}"
+}
+
+function have_git() {
+  command -v git >/dev/null
+}
+
+function log() {
+  if (($#)); then
+    printf "    → %s\n" "$*"
+  else
+    printf "\n"
+  fi
+}
+
+# Download github.com/amix/vimrc and run its installation script.
+function install_vimrc_or_die() {
+  local -r url="https://github.com/amix/vimrc.git"
+  git clone --depth=1 "https://github.com/amix/vimrc.git" ~/.vim_runtime \
+    || die "could not clone '${url}' to install Awesome Vimrc"
+  backup_or_die ~/.vimrc
+  sh ~/.vim_runtime/install_awesome_vimrc.sh >/dev/null \
+    || die "installation script for Awesome Vimrc exited with status $?"
+}
+
+# Destructively overwrite file/directory $2 with file/directory $1.
+function overwrite_or_die() {
+  if ! (rm -rf -- "$2" && cp -f -R "$1" "$2"); then
+    die "cannot overwrite '$2' with '$1'"
+  fi
+}
+
+# Symlink file/directory $1 to $2.
+function symlink_or_die() {
+  ln -s -f "$1" "$2" || die "cannot symlink '$1' to '$2'"
+}
+
+
+function main() {
+  local -r dotfiles_home="${HOME}/.config/dotfiles"
+  mkdir -pm 0700 "${dotfiles_home}"
+
+  local -r repo="$(get_repo_dir_or_die)"
+  if [[ "${repo}" != "${dotfiles_home}" ]]; then
+    backup_or_die "${dotfiles_home}"
+    overwrite_or_die "${repo}" "${dotfiles_home}"
+  fi
+
+  local f
+  for f in ~/.bash_profile ~/.bashrc ~/.zshrc ~/.bash_logout ~/.zlogout; do
+    backup_or_die "${f}"
+  done
+  symlink_or_die "${dotfiles_home}/startup.sh" ~/.bash_profile
+  symlink_or_die "${dotfiles_home}/startup.sh" ~/.bashrc
+  symlink_or_die "${dotfiles_home}/startup.sh" ~/.zshrc
+  symlink_or_die "${dotfiles_home}/logout.sh" ~/.bash_logout
+  symlink_or_die "${dotfiles_home}/logout.sh" ~/.zlogout
+
+  if have_git; then
+    install_vimrc_or_die
+  else
+    log "cannot install awesome vimrc without git"
+    log "using basic vimrc instead"
+    backup_or_die ~/.vimrc
+    symlink_or_die "${dotfiles_home}/vimrc.vim" ~/.vimrc
+  fi
+
+  log "installation complete"
+  log "start a fresh shell to load the new configuration"
+}
+
+main "$@"
