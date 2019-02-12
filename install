@@ -72,10 +72,13 @@ function log() {
   fi
 }
 
-# Download github.com/amix/vimrc and run its installation script.
-function install_vimrc_or_die() {
+
+# Download Awesome Vimrc and install it.
+function install_awesome_vimrc_or_die() {
+  backup_or_die ~/.vim_runtime
+  rm -rf -- ~/.vim_runtime
   local -r url="https://github.com/amix/vimrc.git"
-  git clone --depth=1 "https://github.com/amix/vimrc.git" ~/.vim_runtime \
+  git clone --depth=1 "${url}" ~/.vim_runtime \
     || die "could not clone '${url}' to install Awesome Vimrc"
   backup_or_die ~/.vimrc
   sh ~/.vim_runtime/install_awesome_vimrc.sh >/dev/null \
