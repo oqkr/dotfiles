@@ -14,12 +14,41 @@ function backup_or_die() {
   ${cmd} "$1" "$1.$(date "+%s").bak" || die "cannot create backup of '$1'"
 }
 
+
+# Create a local.d directory and write initial stub files.
+function create_local.d_or_die() {
+  mkdir -p "$1/local.d" || die "cannot create $1/local.d"
+  cat >"$1/local.d/local.sh" <<EOF
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Store configuration specific to this machine.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Example:
+# Silence "Last login message" in terminal on macOS.
+# [[ -e ~/.hushlogin ]] || touch ~/.hushlogin
+EOF
+  cat >"$1/local.d/secret.sh" <<EOF
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Store sensitive data such as credentials.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# ⚠️ IMPORTANT: Make sure this file, local.d, or both are in .gitignore! ⚠️
+#
+# Example:
+# export DISCORD_API_TOKEN="secret-token-goes-here"
+EOF
+  [[ -s "$1/local.d/local.sh" && -s "$1/local.d/secret.sh" ]] \
+    || die "cannot create files in local.d"
+  chmod 0600 "$1/local.d/secret.sh" \
+    || die "cannot set file mode 0600 for $1/local.d/secret.sh"
 }
+
 
 function die() {
   printf "error: %s\n" "$*" >&2
   exit 1
 }
+
 
 # Print the path of the directory this installer is in.
 function get_repo_dir_or_die() {
