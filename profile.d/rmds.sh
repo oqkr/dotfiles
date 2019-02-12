@@ -66,7 +66,7 @@ Remove all .DS_Store files everywhere.
   sudo killall Finder
 
   sudo find / -type 'f' -name '.DS_Store' -delete
-  __rmds_log "Done: You've killed them all, you monster."
+  __rmds_log "Done. You've killed them all, you monster."
 }
 
 
@@ -123,3 +123,9 @@ function __rmds_move_screenshots() {
     done
   )
 }
+
+
+# Add alias to run rmds in a detached tmux session.
+if command -v tmux >/dev/null; then
+  alias tmds='tmux new -d "${SHELL}" -ic "rmds"'
+fi
