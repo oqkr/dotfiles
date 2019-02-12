@@ -34,11 +34,12 @@ if ! [[ -n "${ZSH}" && "${ZSH_NAME}" =~ zsh$ ]]; then
 
   if [[ "${DOTFILES_OS_TYPE}" == "darwin" ]]; then
     alias ls='ls -G'
-    alias ll='ls -lthrAG'
   else
     alias ls='ls --color=auto'
-    alias ll='ls -lthrA --color=auto'
   fi
+  alias l='ls -lah'
+  alias la='ls -lAh'
+  alias ll='ls -lthrA'
 fi
 
 if [[ "${DOTFILES_OS_TYPE}" == "darwin" ]]; then
