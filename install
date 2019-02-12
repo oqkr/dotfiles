@@ -99,32 +99,33 @@ function symlink_or_die() {
 
 
 function main() {
-  local -r dotfiles_home="${HOME}/.config/dotfiles"
-  mkdir -pm 0700 "${dotfiles_home}"
-
+  mkdir -m 0700 ~/.config 2>/dev/null
+  local -r dotfiles_root="${HOME}/.config/dotfiles"
   local -r repo="$(get_repo_dir_or_die)"
-  if [[ "${repo}" != "${dotfiles_home}" ]]; then
-    backup_or_die "${dotfiles_home}"
-    overwrite_or_die "${repo}" "${dotfiles_home}"
+  if [[ "${repo}" != "${dotfiles_root}" ]]; then
+    backup_or_die "${dotfiles_root}"
+    overwrite_or_die "${repo}" "${dotfiles_root}"
   fi
 
   local f
   for f in ~/.bash_profile ~/.bashrc ~/.zshrc ~/.bash_logout ~/.zlogout; do
     backup_or_die "${f}"
   done
-  symlink_or_die "${dotfiles_home}/startup.sh" ~/.bash_profile
-  symlink_or_die "${dotfiles_home}/startup.sh" ~/.bashrc
-  symlink_or_die "${dotfiles_home}/startup.sh" ~/.zshrc
-  symlink_or_die "${dotfiles_home}/logout.sh" ~/.bash_logout
-  symlink_or_die "${dotfiles_home}/logout.sh" ~/.zlogout
+  symlink_or_die "${dotfiles_root}/startup.sh" ~/.bash_profile
+  symlink_or_die "${dotfiles_root}/startup.sh" ~/.bashrc
+  symlink_or_die "${dotfiles_root}/startup.sh" ~/.zshrc
+  symlink_or_die "${dotfiles_root}/logout.sh" ~/.bash_logout
+  symlink_or_die "${dotfiles_root}/logout.sh" ~/.zlogout
 
-  if have_git; then
-    install_vimrc_or_die
+  create_local.d_or_die "${dotfiles_root}"
+
+  if git_is_installed; then
+    install_awesome_vimrc_or_die
   else
     log "cannot install awesome vimrc without git"
     log "using basic vimrc instead"
     backup_or_die ~/.vimrc
-    symlink_or_die "${dotfiles_home}/vimrc.vim" ~/.vimrc
+    symlink_or_die "${dotfiles_root}/vimrc.vim" ~/.vimrc
   fi
 
   log "installation complete"
@@ -132,5 +133,3 @@ function main() {
 }
 
 main "$@"
-  if git_is_installed; then
-    install_awesome_vimrc_or_die
