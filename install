@@ -57,9 +57,12 @@ function get_repo_dir_or_die() {
   printf -- "%s" "${repo}"
 }
 
-function have_git() {
+
+# Return exit status 0 if Git is installed.
+function git_is_installed() {
   command -v git >/dev/null
 }
+
 
 function log() {
   if (($#)); then
@@ -126,3 +129,5 @@ function main() {
 }
 
 main "$@"
+  if git_is_installed; then
+    install_awesome_vimrc_or_die
