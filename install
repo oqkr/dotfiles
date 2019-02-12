@@ -6,15 +6,14 @@
 # Source: https://github.com/oqkr/dotfiles
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 
-# Backup a file by copying it to <file>.<timestamp>.bak
-function backup() {
+
+# Back up a file by copying it to <file>.<seconds_since_epoch>.bak.
+function backup_or_die() {
   [[ -e "$1" ]] || return 0
   [[ -d "$1" ]] && local cmd="cp -f -R" || local cmd="cp -f"
-  ${cmd} "$1" "$1.$(date "+%s").bak"
+  ${cmd} "$1" "$1.$(date "+%s").bak" || die "cannot create backup of '$1'"
 }
 
-function backup_or_die() {
-  backup "$1" || die "cannot create backup of '$1'"
 }
 
 function die() {
