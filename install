@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-# Install dotfiles for current user.
+# Install dotfiles.
 #
 # Author: oqkr@pm.me
 # Source: https://github.com/oqkr/dotfiles
@@ -85,12 +85,14 @@ function install_awesome_vimrc_or_die() {
     || die "installation script for Awesome Vimrc exited with status $?"
 }
 
-# Destructively overwrite file/directory $2 with file/directory $1.
+
+# Overwrite file $2 with the contents of file $1.
 function overwrite_or_die() {
   if ! (rm -rf -- "$2" && cp -f -R "$1" "$2"); then
     die "cannot overwrite '$2' with '$1'"
   fi
 }
+
 
 # Symlink file/directory $1 to $2.
 function symlink_or_die() {
