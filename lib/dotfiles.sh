@@ -349,7 +349,7 @@ function __script_is_waiting_on_deps() (
 # · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 # Print each script name from DOTFILES_WAITING_ON_DEPS separated by newlines.
 #
-# This provides a way to iterate the keys DOTFILES_WAITING_ON_DEPS without
+# This provides a way to iterate the keys of DOTFILES_WAITING_ON_DEPS without
 # having to account for the differing syntax between Bash and Zsh. To guard
 # against word-splitting paths that contain spaces, consider setting IFS=$'\n'
 # before calling this.

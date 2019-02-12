@@ -65,7 +65,7 @@ For more details, check README files in other directories and code comments.
 
 ## Customization
 
-The besy way to add configuration or functions to these dotfiles is to create a
+The best way to add configuration or functions to these dotfiles is to create a
 new startup script in [profile.d/](profile.d) and place your additions there.
 
 (Adding to `~/.bashrc` or `~/.zshrc` is possible but discouraged; there is a
