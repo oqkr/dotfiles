@@ -100,9 +100,6 @@ command W w !sudo tee % > /dev/null
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Custom Configuration (added by oqkr@pm.me)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Saving and closing shortcuts
-nmap :q :q!<cr>
-nmap :x :x!<cr>
 
 " Clear highlighting
 nmap <leader>ch :let @/=""<cr>
