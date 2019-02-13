@@ -42,6 +42,8 @@ if [[ -n "${ZSH_VERSION}" && -f "${HOME}/.oh-my-zsh/oh-my-zsh.sh" ]]; then
     "ssh-agent"
     "tmux"
     "vagrant"
+    "zsh-nvm"
+    "nvm"
   )
 
   # Run Oh My Zsh's startup script.
